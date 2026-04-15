@@ -1,1 +1,0 @@
-{"status":"healthy","base_de_donnees":"ok","redis":"ok"}
