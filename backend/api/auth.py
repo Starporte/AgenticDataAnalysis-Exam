@@ -17,7 +17,7 @@ from backend.config import get_settings
 router = APIRouter(prefix="/api/auth", tags=["Authentification"])
 
 # Contexte de hachage bcrypt
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto", bcrypt__rounds=12)
 settings = get_settings()
 
 
