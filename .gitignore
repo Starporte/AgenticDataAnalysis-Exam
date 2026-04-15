@@ -1,12 +1,54 @@
-*.csv
-.conda/
+# Python
 __pycache__/
-*.ipynb_checkpoints/
-*.pkl
-*.png
-*.pdf
-*.pickle
-*.pyc
+*.py[cod]
 *.pyo
 *.pyd
+*.egg-info/
+dist/
+build/
+*.egg
 
+# Environnement virtuel
+venv/
+.venv/
+env/
+
+# Variables d'environnement (secrets)
+.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Donnees
+*.csv
+*.pkl
+*.pickle
+*.png
+*.pdf
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Uploads utilisateurs
+uploads/
+
+# Images generees
+images/
+
+# Conda
+.conda/
+
+# Docker
+docker-compose.override.yml
+
+# Coverage
+htmlcov/
+.coverage
+coverage.xml
+
+# OS
+.DS_Store
+Thumbs.db
