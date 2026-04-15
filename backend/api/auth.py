@@ -34,7 +34,7 @@ def verifier_mot_de_passe(mot_de_passe: str, mot_de_passe_hash: str) -> bool:
 def creer_token_acces(user_id: int) -> str:
     """Cree un token JWT avec expiration."""
     expiration = datetime.utcnow() + timedelta(minutes=settings.duree_expiration_token)
-    donnees = {"sub": user_id, "exp": expiration}
+    donnees = {"sub": str(user_id), "exp": expiration}
     return jwt.encode(donnees, settings.secret_key, algorithm=settings.algorithme_jwt)
 
 

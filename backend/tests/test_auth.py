@@ -49,7 +49,7 @@ class TestTokenJWT:
         """Le payload doit contenir le user_id et l'expiration."""
         token = creer_token_acces(user_id=42)
         payload = jwt.decode(token, settings.secret_key, algorithms=[settings.algorithme_jwt])
-        assert payload["sub"] == 42
+        assert payload["sub"] == "42"
         assert "exp" in payload
 
     def test_token_invalide(self):
