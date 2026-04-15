@@ -10,7 +10,7 @@ from fastapi.responses import JSONResponse
 from sqlalchemy import text
 
 from backend.config import get_settings
-from backend.db.database import engine, Base, SessionLocal
+from backend.db.database import get_engine, Base, get_session_local
 from backend.api.auth import router as auth_router
 from backend.api.routes import router as api_router
 
@@ -99,7 +99,11 @@ app.include_router(api_router)
 @app.on_event("startup")
 async def demarrage():
     logger.info("demarrage_application", version="1.0.0")
-    Base.metadata.create_all(bind=engine)
+    try:
+        Base.metadata.create_all(bind=get_engine())
+        logger.info("tables_creees")
+    except Exception as e:
+        logger.error("erreur_creation_tables", erreur=str(e))
 
 
 # --- Endpoints de sante et metriques ---
@@ -112,6 +116,7 @@ async def health_check():
 
     # Test PostgreSQL
     try:
+        SessionLocal = get_session_local()
         db = SessionLocal()
         db.execute(text("SELECT 1"))
         db.close()

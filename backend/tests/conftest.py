@@ -15,7 +15,7 @@ os.environ["SECRET_KEY"] = "cle-test-securisee-pour-les-tests"
 os.environ["OPENAI_API_KEY"] = "sk-test-fake-key"
 os.environ["REDIS_URL"] = "redis://localhost:6379/0"
 
-from backend.db.database import Base, get_db
+from backend.db.database import Base, get_db, get_engine
 from backend.api.main import app
 from backend.db.models import User
 from backend.api.auth import hasher_mot_de_passe, creer_token_acces
