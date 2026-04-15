@@ -121,11 +121,11 @@ backend\agents\tools.py                      32     20    38%
 backend\api\__init__.py                       0      0   100%
 backend\api\auth.py                          42      0   100%
 backend\api\dependencies.py                  26      4    85%
-backend\api\main.py                          59      6    90%
+backend\api\main.py                          64      9    86%
 backend\api\routes.py                       121     61    50%
 backend\config.py                            20      0   100%
 backend\db\__init__.py                        0      0   100%
-backend\db\database.py                       12      4    67%
+backend\db\database.py                       24      6    75%
 backend\db\models.py                         60      0   100%
 backend\db\schemas.py                        74      0   100%
 backend\security\__init__.py                  0      0   100%
@@ -140,6 +140,6 @@ backend\tests\test_auth.py                   67      0   100%
 backend\tests\test_persistence.py           118      0   100%
 backend\tests\test_security.py               88      0   100%
 -------------------------------------------------------------
-TOTAL                                      1138    210    82%
+TOTAL                                      1155    215    81%
 Coverage HTML written to dir htmlcov
-====================== 64 passed, 30 warnings in 42.33s =======================
+====================== 64 passed, 30 warnings in 41.66s =======================
