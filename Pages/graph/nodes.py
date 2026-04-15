@@ -5,16 +5,15 @@ from .state import AgentState
 import json
 from typing import Literal
 from .tools import complete_python_task
-from langgraph.prebuilt import ToolInvocation, ToolExecutor
 import os
 
 
 llm = ChatOpenAI(model="gpt-4o", temperature=0)
 
 tools = [complete_python_task]
+tools_by_name = {t.name: t for t in tools}
 
 model = llm.bind_tools(tools)
-tool_executor = ToolExecutor(tools)
 
 with open(os.path.join(os.path.dirname(__file__), "../prompts/main_prompt.md"), "r") as file:
     prompt = file.read()
@@ -68,33 +67,25 @@ def call_model(state: AgentState):
 
 def call_tools(state: AgentState):
     last_message = state["messages"][-1]
-    tool_invocations = []
-    if isinstance(last_message, AIMessage) and hasattr(last_message, 'tool_calls'):
-        tool_invocations = [
-            ToolInvocation(
-                tool=tool_call["name"],
-                tool_input={**tool_call["args"], "graph_state": state}
-            ) for tool_call in last_message.tool_calls
-        ]
-
-    responses = tool_executor.batch(tool_invocations, return_exceptions=True)
     tool_messages = []
     state_updates = {}
 
-    for tc, response in zip(last_message.tool_calls, responses):
-        if isinstance(response, Exception):
-            raise response
-        message, updates = response
-        tool_messages.append(ToolMessage(
-            content=str(message),
-            name=tc["name"],
-            tool_call_id=tc["id"]
-        ))
-        state_updates.update(updates)
+    if isinstance(last_message, AIMessage) and hasattr(last_message, 'tool_calls'):
+        for tc in last_message.tool_calls:
+            tool_fn = tools_by_name[tc["name"]]
+            tool_input = {**tc["args"], "graph_state": state}
+            try:
+                response = tool_fn.invoke(tool_input)
+            except Exception as e:
+                raise e
+            message, updates = response
+            tool_messages.append(ToolMessage(
+                content=str(message),
+                name=tc["name"],
+                tool_call_id=tc["id"]
+            ))
+            state_updates.update(updates)
 
-    if 'messages' not in state_updates:
-        state_updates["messages"] = []
-
-    state_updates["messages"] = tool_messages 
+    state_updates["messages"] = tool_messages
     return state_updates
 
