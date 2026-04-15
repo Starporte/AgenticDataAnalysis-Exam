@@ -85,10 +85,12 @@ def barre_laterale():
         st.divider()
         st.subheader("Sessions d'analyse")
 
-        # Bouton nouvelle session
+        # Nouvelle session avec nom personnalise
+        nom_session = st.text_input("Nom de la session", placeholder="Ex: Analyse ventes Q1")
         if st.button("+ Nouvelle session", use_container_width=True):
+            nom = nom_session.strip() if nom_session.strip() else "Nouvelle analyse"
             try:
-                nouvelle = api.creer_session()
+                nouvelle = api.creer_session(nom=nom)
                 st.session_state["session_active_id"] = nouvelle["id"]
                 st.session_state.pop("messages_cache", None)
                 st.rerun()
@@ -199,6 +201,16 @@ def page_analyse():
         # Champ de saisie
         question = st.chat_input("Posez une question sur vos donnees...")
         if question:
+            # Mettre a jour le nom de la session avec le premier message
+            if not messages:
+                try:
+                    nom_auto = question[:50] + ("..." if len(question) > 50 else "")
+                    session_info = api.obtenir_session(session_id)
+                    if session_info.get("nom") == "Nouvelle analyse":
+                        api.mettre_a_jour_session(session_id, nom=nom_auto)
+                except Exception:
+                    pass
+
             # Recuperer les IDs des datasets
             try:
                 datasets = api.lister_datasets()

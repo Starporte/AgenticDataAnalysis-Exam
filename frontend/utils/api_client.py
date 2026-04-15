@@ -84,6 +84,20 @@ class APIClient:
         )
         return self._gerer_reponse(reponse)
 
+    def mettre_a_jour_session(self, session_id: int, nom: str = None, description: str = None) -> dict:
+        """Met a jour le nom ou la description d'une session."""
+        donnees = {}
+        if nom is not None:
+            donnees["nom"] = nom
+        if description is not None:
+            donnees["description"] = description
+        reponse = requests.patch(
+            f"{self.base_url}/api/sessions/{session_id}",
+            json=donnees,
+            headers=self.headers,
+        )
+        return self._gerer_reponse(reponse)
+
     def lister_sessions(self) -> List[dict]:
         """Liste toutes les sessions de l'utilisateur."""
         reponse = requests.get(

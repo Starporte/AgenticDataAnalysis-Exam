@@ -78,6 +78,30 @@ def obtenir_session(
     return session
 
 
+@router.patch("/sessions/{session_id}", response_model=SessionReponse)
+def mettre_a_jour_session(
+    session_id: int,
+    requete: SessionCreerRequete,
+    db: Session = Depends(get_db),
+    utilisateur: User = Depends(get_current_user),
+):
+    """Met a jour le nom ou la description d'une session."""
+    session = (
+        db.query(AnalysisSession)
+        .filter(AnalysisSession.id == session_id, AnalysisSession.user_id == utilisateur.id)
+        .first()
+    )
+    if not session:
+        raise HTTPException(status_code=404, detail="Session non trouvee")
+    if requete.nom:
+        session.nom = requete.nom
+    if requete.description is not None:
+        session.description = requete.description
+    db.commit()
+    db.refresh(session)
+    return session
+
+
 @router.delete("/sessions/{session_id}", status_code=status.HTTP_204_NO_CONTENT)
 def supprimer_session(
     session_id: int,
