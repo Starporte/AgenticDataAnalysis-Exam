@@ -1,11 +1,12 @@
 """Client API pour communiquer avec le backend FastAPI."""
 
+import os
 import requests
 import streamlit as st
 from typing import Optional, List
 
-# URL de base du backend
-API_BASE_URL = "http://localhost:8000"
+# URL de base du backend (configurable via variable d'environnement)
+API_BASE_URL = os.getenv("API_BASE_URL", "http://localhost:8000")
 
 
 class APIClient:
