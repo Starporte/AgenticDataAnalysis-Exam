@@ -1,8 +1,40 @@
-pandas
-streamlit
-langchain-core
-sklearn
-plotly
-langchain
-langgraph
-langchain-openai
+# Backend FastAPI
+fastapi==0.115.0
+uvicorn[standard]==0.30.0
+python-multipart==0.0.9
+
+# Base de donnees
+sqlalchemy==2.0.35
+psycopg2-binary==2.9.9
+alembic==1.13.2
+
+# Authentification
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+pydantic[email]==2.9.0
+pydantic-settings==2.5.0
+
+# Redis et Celery
+redis==5.1.0
+celery==5.4.0
+flower==2.0.1
+
+# Logging structure
+structlog==24.4.0
+
+# LangChain / LangGraph
+langchain==0.3.0
+langchain-core==0.3.0
+langchain-openai==0.2.0
+langgraph==0.2.28
+
+# Data Science
+pandas==2.2.0
+numpy==1.26.0
+plotly==5.24.0
+scikit-learn==1.5.0
+scipy==1.14.0
+
+# Streamlit (pour le frontend)
+streamlit==1.38.0
+requests==2.32.0
