@@ -1,51 +1,62 @@
 # Preuve de Deploiement
 
-Ce document contient les captures d'ecran prouvant le bon fonctionnement du systeme.
+Ce document contient les preuves du bon fonctionnement du systeme.
 
 ## 1. Docker Compose - Tous les services sains
 
-```bash
-$ docker-compose ps
+```
+NAMES                      STATUS                    PORTS
+datastream_frontend        Up 8 minutes (healthy)    0.0.0.0:8501->8501/tcp
+datastream_backend         Up 8 minutes (healthy)    0.0.0.0:8000->8000/tcp
+datastream_celery_worker   Up 22 minutes
+datastream_flower          Up 55 minutes             0.0.0.0:5555->5555/tcp
+datastream_postgres        Up 55 minutes (healthy)   0.0.0.0:5433->5432/tcp
+datastream_redis           Up 55 minutes (healthy)   0.0.0.0:6379->6379/tcp
 ```
 
-> [CAPTURE D'ECRAN : sortie de docker-compose ps montrant tous les services "Up (healthy)"]
+Sortie complete : [docker-compose-ps.txt](docs/screenshots/docker-compose-ps.txt)
 
 ## 2. Page de Connexion Frontend
 
-> [CAPTURE D'ECRAN : page de connexion Streamlit avec formulaires email/mot de passe]
+![Page de connexion](docs/screenshots/page-connexion.png)
 
 URL : http://localhost:8501
 
 ## 3. Interface de Chat avec Historique de Session
 
-> [CAPTURE D'ECRAN : interface de chat montrant l'historique d'une session chargee]
-
-Demontre que :
-- L'utilisateur est connecte (nom affiche dans la sidebar)
-- Les sessions passees sont visibles dans la barre laterale
-- L'historique de conversation est restaure
+![Interface de chat](docs/screenshots/chat-historique.png)
 
 ## 4. Documentation API (Swagger)
 
-> [CAPTURE D'ECRAN : page /docs montrant la documentation Swagger auto-generee]
+![Documentation API](docs/screenshots/swagger-docs.png)
 
 URL : http://localhost:8000/docs
 
 ## 5. Test de Persistance (Redemarrage Backend)
 
-```bash
-# Etape 1 : Creer une session et envoyer un message
-# Etape 2 : Redemarrer le backend
-$ docker-compose restart backend
-# Etape 3 : Recharger la session - l'historique est preserve
+```
+=== TEST DE PERSISTANCE ===
+
+--- Connexion ---
+Login: {"access_token":"eyJhbGciOiJIUzI1NiIs..."}
+
+--- Sessions apres restart ---
+{"sessions":[{"id":1,"nom":"Analyse de test","description":"Session pour tester la persistance",...}]}
+
+--- Messages session 1 apres restart ---
+2 messages preserves apres restart
+  [user] Quelles sont les colonnes du dataset ?
+  [assistant] Erreur lors de l'analyse : Error code: 429 ...
 ```
 
-> [CAPTURE D'ECRAN : session chargee apres redemarrage du backend]
+Les messages sont intacts apres `docker-compose restart backend`.
+
+Sortie complete : [test-persistance.txt](docs/screenshots/test-persistance.txt)
 
 ## 6. Health Check
 
-```bash
-$ curl http://localhost:8000/health
+```json
+{"status":"healthy","base_de_donnees":"ok","redis":"ok"}
 ```
 
-> [CAPTURE D'ECRAN : reponse JSON {"status": "healthy", "base_de_donnees": "ok", "redis": "ok"}]
+Sortie complete : [health-check.txt](docs/screenshots/health-check.txt)

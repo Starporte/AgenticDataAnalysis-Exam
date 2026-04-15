@@ -1,0 +1,7 @@
+NAMES                      STATUS                    PORTS
+datastream_frontend        Up 8 minutes (healthy)    0.0.0.0:8501->8501/tcp, [::]:8501->8501/tcp
+datastream_backend         Up 8 minutes (healthy)    0.0.0.0:8000->8000/tcp, [::]:8000->8000/tcp
+datastream_celery_worker   Up 22 minutes             
+datastream_flower          Up 55 minutes             0.0.0.0:5555->5555/tcp, [::]:5555->5555/tcp
+datastream_postgres        Up 55 minutes (healthy)   0.0.0.0:5433->5432/tcp, [::]:5433->5432/tcp
+datastream_redis           Up 55 minutes (healthy)   0.0.0.0:6379->6379/tcp, [::]:6379->6379/tcp

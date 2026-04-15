@@ -1,0 +1,11 @@
+=== TEST DE PERSISTANCE ===
+
+--- Connexion ---
+Login: {"access_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXh...
+
+--- Sessions apres restart ---
+{"sessions":[{"id":1,"nom":"Analyse de test","description":"Session pour tester la persistance","nom_dataset":null,"cree_le":"2026-04-15T13:17:27.821080Z","mis_a_jour_le":"2026-04-15T13:17:28.106768Z"}]}
+--- Messages session 1 apres restart ---
+2 messages preserves apres restart
+  [user] Quelles sont les colonnes du dataset ?
+  [assistant] Erreur lors de l'analyse : Error code: 429 - {'error': {'message': 'Yo
