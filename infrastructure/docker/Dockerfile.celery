@@ -1,0 +1,21 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Installer les dependances systeme
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc libpq-dev curl && \
+    rm -rf /var/lib/apt/lists/*
+
+# Copier et installer les dependances
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copier le code source
+COPY . .
+
+# Creer le repertoire uploads
+RUN mkdir -p uploads
+
+# Commande de demarrage du worker Celery
+CMD ["celery", "-A", "backend.tasks.celery_app", "worker", "--loglevel=info", "--concurrency=2"]
